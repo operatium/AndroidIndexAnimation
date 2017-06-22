@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="src" format="reference" />
+    <attr name="backgroundcolor" format="color" />
+    <attr name="time" format="integer" />
+    <attr name="loop" format="boolean" />
+
+    <declare-styleable name="BackGroundView">
+        <attr name="src" />
+        <attr name="backgroundcolor" />
+        <attr name="time" />
+        <attr name="loop" />
+    </declare-styleable>
+</resources>
