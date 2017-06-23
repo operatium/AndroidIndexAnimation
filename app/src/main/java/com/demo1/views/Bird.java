@@ -52,11 +52,11 @@ public class Bird implements SurfaceViewCallBack {
             m_t = 0;
             m_paint = new Paint();
             // 获取每个SeekBar当前的值
-            float progressR = color.left/128f;
-            float progressG = color.top/128f;
-            float progressB = color.right/128f;
-            float progressA= color.bottom/128f;
-            Log.i("main", "R：G：B="+progressR+"："+progressG+"："+progressB);
+            float progressR = color.left / 128f;
+            float progressG = color.top / 128f;
+            float progressB = color.right / 128f;
+            float progressA = color.bottom / 128f;
+            Log.i("main", "R：G：B=" + progressR + "：" + progressG + "：" + progressB);
             // 根据SeekBar定义RGBA的矩阵
             float[] src = new float[]{
                     progressR, 0, 0, 0, 0,
@@ -76,18 +76,39 @@ public class Bird implements SurfaceViewCallBack {
     @Override
     public void initInNewFunc() {
         try {
-            if(m_res == null)
+            if (m_res == null)
                 m_res = new ArrayList<>();
-            m_res.add(R.drawable.cyanbird_00000);
-            m_res.add(R.drawable.cyanbird_00001);
-            m_res.add(R.drawable.cyanbird_00002);
-            m_res.add(R.drawable.cyanbird_00003);
+            switch (m_flyline) {
+                case Line1:
+                    m_res.add(R.drawable.cyanbird_00000);
+                    m_res.add(R.drawable.cyanbird_00001);
+                    m_res.add(R.drawable.cyanbird_00002);
+                    m_res.add(R.drawable.cyanbird_00003);
+                    break;
+                case Line2:
+                    m_res.add(R.drawable.pinkbird_00000);
+                    m_res.add(R.drawable.pinkbird_00001);
+                    m_res.add(R.drawable.pinkbird_00002);
+                    m_res.add(R.drawable.pinkbird_00003);
+                    break;
+                case Line3:
+                    m_res.add(R.drawable.yellowbird_00000);
+                    m_res.add(R.drawable.yellowbird_00001);
+                    m_res.add(R.drawable.yellowbird_00002);
+                    m_res.add(R.drawable.yellowbird_00003);
+                    break;
+                case Line4:
+                    m_res.add(R.drawable.redbird_00000);
+                    m_res.add(R.drawable.redbird_00001);
+                    m_res.add(R.drawable.redbird_00002);
+                    m_res.add(R.drawable.redbird_00003);
+                    break;
+            }
             m_count = m_res.size();
-            if(m_bitmap == null)
+            if (m_bitmap == null)
                 m_bitmap = new ArrayList<>();
-            for (Integer it : m_res)
-            {
-                m_bitmap.add(BitmapUtils.Scale_Cut(m_context,it,m_dm,new PointF(0,0.1f),new RectF(0,0,0,0)));
+            for (Integer it : m_res) {
+                m_bitmap.add(BitmapUtils.Scale_Cut(m_context, it, m_dm, new PointF(0, 0.05f), new RectF(0, 0, 0, 0)));
             }
         } catch (Exception e) {
             Log.e("201706231354", e.toString());
@@ -111,13 +132,12 @@ public class Bird implements SurfaceViewCallBack {
             if (m_index >= m_count)
                 m_index = 0;
             else {
-                m_index = (int) ((m_t *80)%m_count);
+                m_index = (int) ((m_t * 80) % m_count);
             }
             if (m_t >= 1) {
                 m_t = 0;
-                m_speed = (float) (Math.random()*1000)%4+2;
-            }
-            else {
+                m_speed = (float) (Math.random() * 1000) % 4 + 2;
+            } else {
                 m_t += (1 / m_speed / 30);
             }
             m_drawBitmap = m_bitmap.get(m_index);
@@ -138,33 +158,43 @@ public class Bird implements SurfaceViewCallBack {
             switch (type) {
                 case Line1:
                     point1.x = m_dm.widthPixels;
-                    point2.x = m_dm.widthPixels * 0.3f;
-                    point3.x = m_dm.widthPixels * 0.6f;
-                    point4.x = 0;
-                    point1.y = 0;
-                    point2.y = m_dm.heightPixels * 0.2f;
-                    point3.y = m_dm.heightPixels * 0.4f;
-                    point4.y = 0;
-                    break;
-                case Line2:
-                    point1.x = m_dm.widthPixels;
-                    point2.x = m_dm.widthPixels * 0.8f;
-                    point3.x = m_dm.widthPixels * 0.2f;
-                    point4.x = 0;
-                    point1.y = 0;
-                    point2.y = m_dm.heightPixels * 0.2f;
-                    point3.y = m_dm.heightPixels * 0.1f;
-                    point4.y = 0;
-                    break;
-                case Line3:
-                    point1.x = m_dm.widthPixels;
-                    point2.x = m_dm.widthPixels * 0.6f;
+                    point2.x = m_dm.widthPixels * 0.7f;
                     point3.x = m_dm.widthPixels * 0.3f;
                     point4.x = 0;
                     point1.y = 0;
                     point2.y = m_dm.heightPixels * 0.2f;
                     point3.y = m_dm.heightPixels * 0.3f;
                     point4.y = 0;
+                    break;
+                case Line2:
+                    point1.x = m_dm.widthPixels;
+                    point2.x = m_dm.widthPixels * 0.6f;
+                    point3.x = m_dm.widthPixels * 0.4f;
+                    point4.x = 0;
+                    point1.y = 0;
+                    point2.y = m_dm.heightPixels * 0.3f;
+                    point3.y = m_dm.heightPixels * 0.4f;
+                    point4.y = 0;
+                    break;
+                case Line3:
+                    point1.x = m_dm.widthPixels;
+                    point2.x = m_dm.widthPixels * 0.5f;
+                    point3.x = m_dm.widthPixels * 0.4f;
+                    point4.x = 0;
+                    point1.y = 0;
+                    point2.y = m_dm.heightPixels * 0.2f;
+                    point3.y = m_dm.heightPixels * 0.4f;
+                    point4.y = 0;
+                    break;
+                case Line4:
+                    point1.x = m_dm.widthPixels;
+                    point2.x = m_dm.widthPixels * 0.6f;
+                    point3.x = m_dm.widthPixels * 0.3f;
+                    point4.x = 0;
+                    point1.y = m_dm.heightPixels * 0.2f;
+                    point2.y = m_dm.heightPixels * 0.3f;
+                    point3.y = m_dm.heightPixels * 0.3f;
+                    point4.y = m_dm.heightPixels * 0.2f;
                     break;
             }
             point.x = oneMinusT * oneMinusT * oneMinusT * (point1.x)
@@ -185,18 +215,18 @@ public class Bird implements SurfaceViewCallBack {
     @Override
     public void destory() {
         try {
-            for (Bitmap it : m_bitmap){
+            for (Bitmap it : m_bitmap) {
                 it = null;
             }
             m_bitmap.clear();
             m_res.clear();
-            m_paint= null;
+            m_paint = null;
         } catch (Exception e) {
             Log.e("201706231356", e.toString());
         }
     }
 
     public enum FlyLineType {
-        Line1, Line2, Line3
+        Line1, Line2, Line3, Line4
     }
 }

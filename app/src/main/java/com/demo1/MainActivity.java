@@ -2,9 +2,11 @@ package com.demo1;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.GlideBuilder;
