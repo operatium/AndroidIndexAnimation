@@ -2,68 +2,88 @@ package com.demo1.views;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Matrix;
+import android.graphics.PointF;
+import android.graphics.RectF;
+import android.util.DisplayMetrics;
 import android.util.Log;
+
+import com.demo1.utils.BitmapUtils;
 
 /**
  * Created by java on 2017/6/21.
  */
 
 public class Tree implements SurfaceViewCallBack {
-    private float m_bitmapHeight;
     private float StartX;
-    private int FullWidth;
-    private int FullHeight;
-    private int BitmapWidth;
-    private int BitmapHeight;
-    private int Count;
-    private Bitmap bitmap = null;
-    private Context context;
-    private int res;
-    private int jianju;
+    private DisplayMetrics m_dm;
+    private Bitmap m_bitmap = null;
+    private Context m_context;
+    private int m_res;
+    private int m_jianju;
     private float m_sudu;
-    private float m_position;
+    private PointF m_anchor;
+    private PointF m_scale;
+    private PointF m_position;
 
-    public Tree(float bitmapHeight, float positionScan,int fullWidth, int fullHeight, Context context, int res,int jianju,float sudu) {
-        m_bitmapHeight=bitmapHeight;
-        FullWidth = fullWidth;
-        FullHeight = fullHeight;
-        this.context = context;
-        this.res = res;
-        StartX = 0;
-        this.jianju = jianju;
-        m_sudu =sudu;
-        m_position=positionScan;
+    private int m_bitmapWidth;
+    private int m_bitmapheight;
+    private RectF m_outPic;
+    private int Count;
+
+    public Tree(int res, PointF scale, PointF anchor, PointF position, float jianju, float sudu, DisplayMetrics dm, Context context) {
+        try {
+            m_res = res;
+            m_scale = scale;
+            m_anchor = anchor;
+            m_position = position;
+            m_jianju = (int) (jianju*dm.widthPixels);
+            m_sudu = sudu;
+            m_dm = dm;
+            m_context = context;
+        } catch (Exception e) {
+            Log.e("201706231124", e.toString());
+        }
     }
 
     @Override
     public void initInNewFunc() {
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        bitmap = BitmapFactory.decodeResource(context.getResources(), res, options);
-        float scaleHeight =  m_bitmapHeight / options.outHeight;
-        Matrix matrix = new Matrix();
-        matrix.postScale(scaleHeight, scaleHeight);
-        bitmap = Bitmap.createBitmap(bitmap, 0,0,options.outWidth,options.outHeight,matrix,true);
-        BitmapWidth = bitmap.getWidth();
-        BitmapHeight = bitmap.getHeight();
+        try {
+            m_bitmap = BitmapUtils.Scale_Cut(m_context, m_res, m_dm, m_scale, new RectF(0, 0, 0, 0));
+            m_bitmapWidth = m_bitmap.getWidth();
+            m_bitmapheight = m_bitmap.getHeight();
+            //根据锚点找出左上角
+            if (m_outPic == null)
+                m_outPic = new RectF(0, 0, 0, 0);
+            StartX = -m_bitmapWidth - m_jianju;
+            m_outPic.left = StartX;
+            m_outPic.top = m_position.y - m_anchor.y * m_bitmapheight;
+            m_outPic.right = m_outPic.left + m_bitmapWidth;
+            m_outPic.bottom = m_outPic.top + m_bitmapheight;
+//        BitmapFactory.Options options = new BitmapFactory.Options();
+//        bitmap = BitmapFactory.decodeResource(m_context.getResources(), m_res, options);
+//        float scaleHeight =  m_bitmapHeight / options.outHeight;
+//        Matrix matrix = new Matrix();
+//        matrix.postScale(scaleHeight, scaleHeight);
+//        bitmap = Bitmap.createBitmap(bitmap, 0,0,options.outWidth,options.outHeight,matrix,true);
+        } catch (Exception e) {
+            Log.e("201706231125", e.toString());
+        }
     }
 
     @Override
     public void draw(Canvas canvas) {
         try {
-            if (bitmap != null && canvas !=  null) {
-                if (StartX >= 0)
-                    StartX = -BitmapWidth-jianju;
-                double d = (FullWidth - StartX) *1.00/(BitmapWidth +jianju);
-                Count = (int) Math.ceil(d) ;//重复几个呢
+            if (m_bitmap != null && canvas != null) {
+//                if (StartX >= 0)
+//                    StartX = -m_bitmapWidth - m_jianju;
+//                double d = (m_dm.widthPixels - StartX) * 1.00 / (m_bitmapWidth + m_jianju);
+//                int Count = (int) Math.ceil(d);//重复几个呢
                 for (int i = 0; i < Count; ++i) {
-                    int x = (int) (StartX + i * BitmapWidth + jianju*i);
-                    int y = (int) (FullHeight*m_position);
-                    canvas.drawBitmap(bitmap, x , y, null);
+                    int x = (int) (StartX + i * m_bitmapWidth + m_jianju * i);
+                    canvas.drawBitmap(m_bitmap, x, m_outPic.top, null);
                 }
-                StartX += m_sudu;
+//                StartX += m_sudu;
             }
         } catch (Exception e) {
             Log.e("20170622228", e.toString());
@@ -71,8 +91,28 @@ public class Tree implements SurfaceViewCallBack {
     }
 
     @Override
+    public void preDraw() {
+        try {
+            if (m_bitmap != null ) {
+                if (StartX >= 0)
+                    StartX = -m_bitmapWidth - m_jianju;
+                else
+                    StartX += m_sudu;
+                double d = (m_dm.widthPixels - StartX) * 1.00 / (m_bitmapWidth + m_jianju);
+                Count = (int) Math.ceil(d);//重复几个呢
+            }
+        } catch (Exception e) {
+            Log.e("201706231649", e.toString());
+        }
+    }
+
+    @Override
     public void destory() {
-        bitmap = null;
-        context = null;
+        try {
+            m_bitmap = null;
+            m_context = null;
+        } catch (Exception e) {
+            Log.e("201706231126", e.toString());
+        }
     }
 }

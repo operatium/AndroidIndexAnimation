@@ -2,9 +2,7 @@ package com.demo1.views;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.PointF;
 import android.graphics.RectF;
@@ -13,7 +11,7 @@ import android.util.Log;
 
 import com.demo1.utils.BitmapUtils;
 
-public class YuanShan implements SurfaceViewCallBack {
+public class NewYuanShan implements SurfaceViewCallBack {
     private float StartX;
     private DisplayMetrics m_dm;
     private Bitmap m_bitmap = null;
@@ -29,7 +27,7 @@ public class YuanShan implements SurfaceViewCallBack {
     private int m_bitmapheight;
     private RectF m_outPic;
 
-    public YuanShan(int res, PointF scale, PointF anchor, PointF position, float sudu, DisplayMetrics dm, Context context) {
+    public NewYuanShan(int res, PointF scale, PointF anchor, PointF position, float sudu, DisplayMetrics dm, Context context) {
         this.m_dm = dm;
         this.m_context = context;
         this.m_res = res;
@@ -84,7 +82,7 @@ public class YuanShan implements SurfaceViewCallBack {
 
     @Override
     public void preDraw() {
-
+        
     }
 
     @Override

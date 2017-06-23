@@ -7,7 +7,8 @@ import android.graphics.Canvas;
  */
 
 public interface SurfaceViewCallBack {
-    public void initInNewFunc();
-    public void draw(Canvas c);
-    public void destory();
+    void initInNewFunc();
+    void draw(Canvas c);
+    void preDraw();
+    void destory();
 }

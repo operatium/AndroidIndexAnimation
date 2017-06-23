@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#fff595"
-    tools:context="com.demo1.MainActivity">
+    tools:m_context="com.demo1.MainActivity">
 <com.demo1.TitanicTextView
     android:id="@+id/tv"
     android:layout_width="wrap_content"

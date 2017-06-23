@@ -7,6 +7,8 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.widget.TextView;
 
+import com.bumptech.glide.GlideBuilder;
+import com.bumptech.glide.load.engine.cache.InternalCacheDiskCacheFactory;
 import com.demo1.views.MyView;
 
 import butterknife.ButterKnife;
