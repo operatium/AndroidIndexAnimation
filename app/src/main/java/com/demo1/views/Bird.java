@@ -37,6 +37,10 @@ public class Bird implements SurfaceViewCallBack {
     private Paint m_paint;
     private Bitmap m_drawBitmap;//提供当前帧的bitmap
     private PointF m_drawPoint;//提供当前帧的位置
+    private PointF point1 = new PointF();
+    private PointF point2 = new PointF();
+    private PointF point3 = new PointF();
+    private PointF point4 = new PointF();
 
     public Bird(FlyLineType m_flyline, float m_speed, Rect color, Context m_context, DisplayMetrics m_dm) {
         try {
@@ -93,19 +97,8 @@ public class Bird implements SurfaceViewCallBack {
     @Override
     public void draw(Canvas canvas) {
         try {
-            if (m_index >= m_count - 1) {
-                m_index = 0;
-            }
-            if (m_t >= 1) {
-                m_t = 0;
-            }
-            Bitmap bitmap = m_bitmap.get(m_index);
-            if (bitmap != null) {
-                PointF p = getY4FlyLineType(m_flyline, m_t);
-                // 通过指定了RGBA矩阵的Paint把原图画到空白图片上
-                canvas.drawBitmap(bitmap, p.x, p.y, m_paint);
-                m_t += (1 / m_speed / 30);
-                m_index +=1;
+            if (m_drawBitmap != null) {
+                canvas.drawBitmap(m_drawBitmap, m_drawPoint.x, m_drawPoint.y, m_paint);
             }
         } catch (Exception e) {
             Log.e("201706231355", e.toString());
@@ -115,14 +108,22 @@ public class Bird implements SurfaceViewCallBack {
     @Override
     public void preDraw() {
         try {
-            if (m_index >= m_count - 1) {
+            if (m_index >= m_count)
                 m_index = 0;
+            else {
+                m_index = (int) ((m_t *80)%m_count);
             }
             if (m_t >= 1) {
                 m_t = 0;
+                m_speed = (float) (Math.random()*1000)%4+2;
+            }
+            else {
+                m_t += (1 / m_speed / 30);
             }
             m_drawBitmap = m_bitmap.get(m_index);
             m_drawPoint = getY4FlyLineType(m_flyline, m_t);
+//            Log.d("show m_t",m_t+"/"+m_index);
+
         } catch (Exception e) {
             Log.e("201706231641", e.toString());
         }
@@ -134,10 +135,6 @@ public class Bird implements SurfaceViewCallBack {
             if (t > 1 || t < 0)
                 t = 0;
             float oneMinusT = 1.0f - t;
-            PointF point1 = new PointF();
-            PointF point2 = new PointF();
-            PointF point3 = new PointF();
-            PointF point4 = new PointF();
             switch (type) {
                 case Line1:
                     point1.x = m_dm.widthPixels;
@@ -145,28 +142,28 @@ public class Bird implements SurfaceViewCallBack {
                     point3.x = m_dm.widthPixels * 0.6f;
                     point4.x = 0;
                     point1.y = 0;
-                    point2.y = m_dm.widthPixels * 0.2f;
-                    point3.y = m_dm.widthPixels * 0.4f;
+                    point2.y = m_dm.heightPixels * 0.2f;
+                    point3.y = m_dm.heightPixels * 0.4f;
                     point4.y = 0;
                     break;
                 case Line2:
                     point1.x = m_dm.widthPixels;
-                    point2.x = m_dm.widthPixels * 0.3f;
-                    point3.x = m_dm.widthPixels * 0.6f;
+                    point2.x = m_dm.widthPixels * 0.8f;
+                    point3.x = m_dm.widthPixels * 0.2f;
                     point4.x = 0;
-                    point1.y = m_dm.heightPixels / 2;
-                    point2.y = m_dm.widthPixels * 0.2f;
-                    point3.y = m_dm.widthPixels * 0.4f;
+                    point1.y = 0;
+                    point2.y = m_dm.heightPixels * 0.2f;
+                    point3.y = m_dm.heightPixels * 0.1f;
                     point4.y = 0;
                     break;
                 case Line3:
                     point1.x = m_dm.widthPixels;
-                    point2.x = m_dm.widthPixels * 0.3f;
-                    point3.x = m_dm.widthPixels * 0.6f;
+                    point2.x = m_dm.widthPixels * 0.6f;
+                    point3.x = m_dm.widthPixels * 0.3f;
                     point4.x = 0;
-                    point1.y = m_dm.heightPixels / 2;
-                    point2.y = m_dm.widthPixels * 0.2f;
-                    point3.y = m_dm.widthPixels * 0.4f;
+                    point1.y = 0;
+                    point2.y = m_dm.heightPixels * 0.2f;
+                    point3.y = m_dm.heightPixels * 0.3f;
                     point4.y = 0;
                     break;
             }

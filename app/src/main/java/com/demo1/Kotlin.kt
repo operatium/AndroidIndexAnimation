@@ -51,7 +51,9 @@ class Kotlin : AppCompatActivity() {
 //            bg.addView(YuanShan(R.drawable.background_huocheguidao, PointF(0f,1f), PointF(0f,1f), PointF(0f, dm.heightPixels.toFloat()),2.5f,dm,this))
             bg.addView(YuanShan(R.drawable.index_background04, PointF(0f,117/614f), PointF(0f,1f), PointF(0f, dm.heightPixels.toFloat()),2.5f,dm,this))
             bg.addView(Tree(R.drawable.flower3_00020, PointF(0f,0.1f), PointF(0f,1f), PointF(0f,dm.heightPixels*700/720f),1/4f,2.5f,dm,this))
-            bg.addView(Bird(Bird.FlyLineType.Line1,5f, Rect(128,128,128,128),this,dm))
+            bg.addView(Bird(Bird.FlyLineType.Line1,7f, Rect(128,128,128,128),this,dm))
+            bg.addView(Bird(Bird.FlyLineType.Line2,7f, Rect(128,128,128,128),this,dm))
+            bg.addView(Bird(Bird.FlyLineType.Line3,7f, Rect(128,128,128,128),this,dm))
         }catch (e: Exception){
             Log.e("201706212145", e.toString())
         }
