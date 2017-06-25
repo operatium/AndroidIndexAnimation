@@ -48,7 +48,19 @@ public class NewYuanShan implements SurfaceViewCallBack {
 //        Matrix matrix = new Matrix();
 //        matrix.postScale(scaleHeight, scaleHeight);
 //        bitmap = Bitmap.createBitmap(bitmap, 0,0,options.outWidth,options.outHeight,matrix,true);
-        m_bitmap = BitmapUtils.Scale_Cut(m_context,m_res,m_dm,m_scale,new RectF(0,0,0,0));
+//        m_bitmap = BitmapUtils.Scale_Cut(m_context,m_res,m_dm,m_scale,new RectF(0,0,0,0));
+        BitmapData.transformation cut = new BitmapData.transformation() {
+            @Override
+            public Bitmap transform4Cut(Context context, int res, DisplayMetrics dm, PointF scale, RectF cut) {
+                return BitmapUtils.Scale_Cut(context, res, dm, scale, cut);
+            }
+
+            @Override
+            public Bitmap transform4Rotate(Bitmap bitmap, float rotateRotationAngle) {
+                return null;
+            }
+        };
+        m_bitmap = BitmapData.getInstance().addBitmap(m_res+"",m_res,m_scale,new RectF(0,0,0,0),cut);
         m_bitmapWidth = m_bitmap.getWidth();
         m_bitmapheight = m_bitmap.getHeight();
         //根据锚点找出左上角

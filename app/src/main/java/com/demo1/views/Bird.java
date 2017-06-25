@@ -136,7 +136,7 @@ public class Bird implements SurfaceViewCallBack {
             }
             if (m_t >= 1) {
                 m_t = 0;
-                m_speed = (float) (Math.random() * 1000) % 4 + 2;
+                m_speed = (float) (Math.random() * 1000) % 2 + 3;
             } else {
                 m_t += (1 / m_speed / 30);
             }

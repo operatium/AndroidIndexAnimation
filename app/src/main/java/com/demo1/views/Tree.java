@@ -49,7 +49,19 @@ public class Tree implements SurfaceViewCallBack {
     @Override
     public void initInNewFunc() {
         try {
-            m_bitmap = BitmapUtils.Scale_Cut(m_context, m_res, m_dm, m_scale, new RectF(0, 0, 0, 0));
+//            m_bitmap = BitmapUtils.Scale_Cut(m_context, m_res, m_dm, m_scale, new RectF(0, 0, 0, 0));
+            BitmapData.transformation cut = new BitmapData.transformation() {
+                @Override
+                public Bitmap transform4Cut(Context context, int res, DisplayMetrics dm, PointF scale, RectF cut) {
+                    return BitmapUtils.Scale_Cut(context, res, dm, scale, cut);
+                }
+
+                @Override
+                public Bitmap transform4Rotate(Bitmap bitmap, float rotateRotationAngle) {
+                    return null;
+                }
+            };
+            m_bitmap = BitmapData.getInstance().addBitmap(m_res+"",m_res,m_scale,new RectF(0,0,0,0),cut);
             m_bitmapWidth = m_bitmap.getWidth();
             m_bitmapheight = m_bitmap.getHeight();
             //根据锚点找出左上角
@@ -60,12 +72,6 @@ public class Tree implements SurfaceViewCallBack {
             m_outPic.top = m_position.y - m_anchor.y * m_bitmapheight;
             m_outPic.right = m_outPic.left + m_bitmapWidth;
             m_outPic.bottom = m_outPic.top + m_bitmapheight;
-//        BitmapFactory.Options options = new BitmapFactory.Options();
-//        bitmap = BitmapFactory.decodeResource(m_context.getResources(), m_res, options);
-//        float scaleHeight =  m_bitmapHeight / options.outHeight;
-//        Matrix matrix = new Matrix();
-//        matrix.postScale(scaleHeight, scaleHeight);
-//        bitmap = Bitmap.createBitmap(bitmap, 0,0,options.outWidth,options.outHeight,matrix,true);
         } catch (Exception e) {
             Log.e("201706231125", e.toString());
         }
@@ -75,15 +81,10 @@ public class Tree implements SurfaceViewCallBack {
     public void draw(Canvas canvas) {
         try {
             if (m_bitmap != null && canvas != null) {
-//                if (StartX >= 0)
-//                    StartX = -m_bitmapWidth - m_jianju;
-//                double d = (m_dm.widthPixels - StartX) * 1.00 / (m_bitmapWidth + m_jianju);
-//                int Count = (int) Math.ceil(d);//重复几个呢
                 for (int i = 0; i < Count; ++i) {
                     int x = (int) (StartX + i * m_bitmapWidth + m_jianju * i);
                     canvas.drawBitmap(m_bitmap, x, m_outPic.top, null);
                 }
-//                StartX += m_sudu;
             }
         } catch (Exception e) {
             Log.e("20170622228", e.toString());
@@ -95,7 +96,7 @@ public class Tree implements SurfaceViewCallBack {
         try {
             if (m_bitmap != null ) {
                 if (StartX >= 0)
-                    StartX = -m_bitmapWidth - m_jianju;
+                    StartX = -m_bitmapWidth - m_jianju+m_sudu;
                 else
                     StartX += m_sudu;
                 double d = (m_dm.widthPixels - StartX) * 1.00 / (m_bitmapWidth + m_jianju);
