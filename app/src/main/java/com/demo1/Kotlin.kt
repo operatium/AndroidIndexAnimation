@@ -22,9 +22,12 @@ import android.content.Intent
 import android.content.ComponentName
 import android.os.IBinder
 import android.content.ServiceConnection
+import android.widget.SeekBar
+import java.util.*
 
 
 class Kotlin : AppCompatActivity() {
+    private var m_progress: Float = 0.0f
     private var m_service: MyService? = null
 
     private val conn = object : ServiceConnection {
@@ -50,6 +53,20 @@ class Kotlin : AppCompatActivity() {
             val intent = Intent(this@Kotlin, MyService::class.java)
             bindService(intent, conn, Context.BIND_AUTO_CREATE)
 
+            showview.setImageResource(R.drawable.role)
+
+            seekBar!!.setOnSeekBarChangeListener(object: SeekBar.OnSeekBarChangeListener{
+                override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
+                    m_progress = p1/100.0f
+                    showview.setProgress(m_progress)
+                }
+
+                override fun onStartTrackingTouch(p0: SeekBar?) {
+                }
+
+                override fun onStopTrackingTouch(p0: SeekBar?) {
+                }
+            })
         } catch (e: Exception) {
             Log.e("201706211711", e.toString())
         }

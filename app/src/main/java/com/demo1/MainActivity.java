@@ -9,9 +9,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.demo1.views.BitmapData;
+import com.demo1.views.bookroom.BookRoomActivity;
 import com.demo1.views.MessageEvent;
-import com.demo1.views.PreLoad;
-import com.demo1.views.newLoco;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -35,6 +34,8 @@ public class MainActivity extends AppCompatActivity {
             setContentView(R.layout.activity_main);
             ButterKnife.inject(this);
             EventBus.getDefault().register(this);
+
+
         } catch (Exception e) {
             Log.e("201706211710", e.toString());
         }
@@ -58,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
     {
         switch (e.getName()){
             case "gotohome":
-                startActivity(new Intent(this, Kotlin.class));
+                startActivity(new Intent(this, BookRoomActivity.class));
                 break;
         }
     }

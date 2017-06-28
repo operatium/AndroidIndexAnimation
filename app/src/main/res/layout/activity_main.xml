@@ -26,4 +26,11 @@
         tools:layout_editor_absoluteX="166dp"
         tools:layout_editor_absoluteY="229dp" />
 
+    <SeekBar
+        android:id="@+id/seekBar2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:layout_editor_absoluteX="168dp"
+        tools:layout_editor_absoluteY="107dp" />
+
 </android.support.constraint.ConstraintLayout>

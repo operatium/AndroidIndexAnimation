@@ -28,6 +28,9 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.demo1.MainActivity" />
         </activity>
+        <activity android:name=".views.bookroom.BookRoomActivity"
+            android:screenOrientation="landscape"
+            android:theme="@style/fullscreen" />
 
         <service android:name=".views.MyService" />
     </application>

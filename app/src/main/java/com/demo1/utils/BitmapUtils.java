@@ -50,6 +50,7 @@ public class BitmapUtils {
         }
         return m_bitmap;
     }
+
     //图片旋转
     public static Bitmap rotate(Bitmap bitmap,float rotateRotationAngle) {
         try {
@@ -68,7 +69,9 @@ public class BitmapUtils {
     }
 
     //根据锚点获取左上角坐标
-    public static PointF getLeftAndTopPoint(PointF anchor, PointF positionScale4parent, PointF childsize) {
+    public static PointF getLeftAndTopPoint(PointF anchor,//图片的锚点
+                                            PointF positionScale4parent,//图片位于当前控件的坐标
+                                            PointF childsize) {//图片的尺寸
         PointF lefttop = new PointF();
         try {
             lefttop.x = positionScale4parent.x - anchor.x * childsize.x;
